@@ -114,9 +114,18 @@ invincibility_powercrystal = 0xc8
 bossState = byte(0xc020)
 
 bossState_DustArea_Defeated = 0x06
+
 bossState_DamArea_Defeated = 0x04
+
 bossState_SmogArea_Defeated = 0x05
+
+bossState_OilArea_InFloor = 0x00
+bossState_OilArea_Bouncing = 0x01
+bossState_OilArea_Dropping = 0x02
+bossState_OilArea_Standing = 0x03
+bossState_OilArea_Ceiling = 0x04
 bossState_OilArea_Defeated = 0x05
+
 bossState_FinalArea_Defeated = 0x05
 
 bossStateByArea_Defeated = 
@@ -207,6 +216,17 @@ function defeatedAreaBossMeleeOnly(area){
         prev(bossState) != bossStateByArea_Defeated[area] && 
         trigger_when(bossState == bossStateByArea_Defeated[area]) &&
         disable_when(chargeDamage(), !fightingBoss())
+}
+
+function oilSlickPhaseChallenge(){
+    return 
+        fightingBoss() &&
+        gameArea == gameArea_OilArea &&
+        trigger_when(repeated(3, chargeDamage())) &&
+        (
+            never(!(fightingBoss() && gameArea == gameArea_OilArea)) || 
+            never(bossState == bossState_OilArea_Bouncing || bossState == bossState_OilArea_Defeated)
+        )
 }
 
 function chargeDamage(){
@@ -336,7 +356,7 @@ achievement(
     title = "Oil Area - Phase Challenge",
     points = 3,
     description = "Damage Oil Slick 3 times with charged attacks in a single phase",
-    trigger = always_true()
+    trigger = oilSlickPhaseChallenge()
 )
 
 //Oil Area Bonus - Save all of the Sea Birds
