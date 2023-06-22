@@ -1,0 +1,82 @@
+Lookup:Level
+0=Scraping the Surface 1
+1=Scraping the Surface 2
+2=Tropical Caves 1
+3=Tropical Caves 2
+4=Deep Water 1
+5=Deep Water 2
+6=Toast in the Machine 1
+7=Toast in the Machine 2
+8=It Takes Guts 1
+9=It Takes Guts 2
+10=Getting Warmer 1
+11=Getting Warmer 2
+12=Radio-Active 1
+13=Radio-Active 2
+14=Headslot H.Q.
+15=Scraping the Surface Bonus 1
+16=Scraping the Surface Bonus 2
+17=Tropical Caves Bonus 1
+18=Tropical Caves Bonus 2
+19=Deep Water Bonus 1
+20=Deep Water Bonus 2
+21=Toast in the Machine Bonus 1
+22=Toast in the Machine Bonus 2
+23=It Takes Guts Bonus 1
+24=It Takes Guts Bonus 2
+25=Getting Warmer Bonus 1
+26=Getting Warmer Bonus 2
+27=Radio-Active Bonus 1
+28=Radio-Active Bonus 2
+
+Lookup:PlayMode
+16=Watching Demo
+80=Watching a Playback
+128=On Title Screen
+
+Lookup:Track
+0=Scissor Fish 1
+1=Scissor Fish 2
+2=Scissor Fish 3
+3=Rubber Bucket 1
+4=Rubber Bucket 2
+5=Rubber Bucket 3
+6=Chopper Hounds 1
+7=Chopper Hounds 2
+8=Chopper Hounds 3
+9=Voodoo Puppets 1
+10=Voodoo Puppets 2
+11=Voodoo Puppets 3
+12=Elepfant Funk 1
+13=Elepfant Funk 2
+14=Elepfant Funk 3
+15=Atomic Raygun 1
+16=Atomic Raygun 2
+17=Atomic Raygun 3
+18=Corsehairs 1
+19=Corsehairs 2
+20=Corsehairs 3
+21=Headslots Funbot 1
+22=Headslots Funbot 2
+23=Headslots Orbatron
+24=Headslots Psychic Brain
+25=Headslots Tiki par lez VooDoo
+26=Headslots Octopus
+27=Headslots Moa Moa Sulfuric Surfer
+28=Headslots Skeleguts
+29=Mohawk Bonus Round
+30=Mohawk Finale 1
+31=Mohawk Finale 2
+
+Format:Number
+FormatType=VALUE
+
+Display:
+?0xH0000ec=0_0xH0000e7=66_0xH0000eb!=3?Playing @Level(0xH00032e) | Listening to @Track(0xH000318) | Mega CDs @Number(0xK00031a_0xM00031b_0xO00031b_0xP00031b_0xQ00031b_0xR00031b_0xS00031b_0xT00031b_0xM00031c_0xN00031c_0xO00031c_0xP00031c_0xQ00031c)/20
+?0xH0000ec=0_0xH0000e7=66_0xH0000eb=3?Fighting the Boss on @Level(0xH00032e) | Listening to @Track(0xH000318) | Mega CDs @Number(0xK00031a_0xM00031b_0xO00031b_0xP00031b_0xQ00031b_0xR00031b_0xS00031b_0xT00031b_0xM00031c_0xN00031c_0xO00031c_0xP00031c_0xQ00031c)/20
+?0xH0000ec=0_0xH00030c!=0_0xH000fb8!=0_0xH000318!=30?Warping to a New Location
+?0xH0000ec=0_0xH00030c!=0_0xH000fb8!=0_0xH000318=30?Watching Ending
+?0xH0000ec=0_0xH00030c=0_0xH000318=30?Watching Credits
+?1=1S0xH0000ec=16S0xH0000ec=80?@PlayMode(0xH0000ec) | Listening to @Track(0xH000318)
+?0xH0000ec=128?@PlayMode(0xH0000ec)
+Playing Mohawk & Headphone Jack
