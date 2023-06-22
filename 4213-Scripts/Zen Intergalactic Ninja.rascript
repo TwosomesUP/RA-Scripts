@@ -222,11 +222,21 @@ function oilSlickPhaseChallenge(){
     return 
         fightingBoss() &&
         gameArea == gameArea_OilArea &&
+        //ResetNextIf bossState == bossState_OilArea_Bouncing
         trigger_when(repeated(3, chargeDamage())) &&
         (
             never(!(fightingBoss() && gameArea == gameArea_OilArea)) || 
             never(bossState == bossState_OilArea_Bouncing || bossState == bossState_OilArea_Defeated)
         )
+}
+
+function sulfuraAcidRainPhaseChallenge(){
+    return 
+        fightingBoss() &&
+        gameArea == gameArea_DamArea &&
+        prev(bossState) != bossState_DamArea_Defeated &&
+        trigger_when(bossState == bossState_DamArea_Defeated) &&
+        unless(bossState == )
 }
 
 function chargeDamage(){
