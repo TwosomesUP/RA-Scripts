@@ -38,6 +38,7 @@ gameScene_Title = 0x02
 
 gameScene_InGame_Start = 0x00
 gameScene_InGame_InLevel = 0x01
+gameScene_InGame_PreBoss = 0x02
 gameScene_InGame_Boss = 0x03
 gameScene_InGame_Continue = 0x04
 
@@ -113,6 +114,12 @@ invincibility_powercrystal = 0xc8
 //Boss States
 bossState = byte(0xc020)
 
+bossState_DustArea_Returning = 0x00
+bossState_DustArea_Raising = 0x01
+bossState_DustArea_Attacking = 0x02
+bossState_DustArea_Jumping = 0x03
+bossState_DustArea_Sinking = 0x04
+bossState_DustArea_Fists = 0x05
 bossState_DustArea_Defeated = 0x06
 
 bossState_DamArea_Floating = 0x01
@@ -120,6 +127,10 @@ bossState_DamArea_Throwing = 0x02
 bossState_DamArea_AcidRain = 0x03
 bossState_DamArea_Defeated = 0x04
 
+bossState_SmogArea_InPipe = 0x00
+bossState_SmogArea_Jumping = 0x01
+bossState_SmogArea_Fog = 0x02
+bossState_SmogArea_Smoke = 0x03
 bossState_SmogArea_Defeated = 0x05
 
 bossState_OilArea_InFloor = 0x00
@@ -129,7 +140,13 @@ bossState_OilArea_Standing = 0x03
 bossState_OilArea_Ceiling = 0x04
 bossState_OilArea_Defeated = 0x05
 
+bossState_FinalArea_Acid = 0x01
+bossState_FinalArea_Smog = 0x02
+bossState_FinalArea_Oil = 0x03
+bossState_FinalArea_Dust = 0x04
 bossState_FinalArea_Defeated = 0x05
+bossState_FinalArea_Jeremy = 0x06
+bossState_FinalArea_Melted = 0x07
 
 bossStateByArea_Defeated = 
 [
@@ -140,18 +157,34 @@ bossStateByArea_Defeated =
     bossState_FinalArea_Defeated
 ]
 
+//Bonuses
+bonusCounter_SmogArea = byte(0xc024)
+bonusCounter_DustArea = byte(0xc024)
+bonusCounter_OilArea = byte(0xc025)
+bonusCounter_DamArea = byte(0xc030)
+
+bonusCounterByArea = 
+[
+    bonusCounter_DustArea,
+    bonusCounter_DamArea,
+    bonusCounter_SmogArea,
+    bonusCounter_OilArea
+]
+
 //Functions
 function inGame() => gameState == gameState_InGame
 function inBonus() => gameState == gameState_Bonus
 
 function playingLevel() => inGame() && gameScene == gameScene_InGame_InLevel
+function startedBoss(area) => once(inGame() && gameArea == area && prev(gameScene) == gameScene_InGame_PreBoss && gameScene == gameScene_InGame_Boss)
 function fightingBoss() => inGame() && gameScene == gameScene_InGame_Boss
-function startedLevel() => tally(1, inGame() && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel)
+function startedLevel() => once(inGame() && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel)
 function completedLevel() => (prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss) && (gameState == gameState_StageClear && gameScene == gameScene_StageClear)
 function completedFinalLevel() => (prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss) && (gameState == gameState_Ending && gameScene == gameScene_Ending) 
 
 function playingBonus() => inBonus() && gameScene == gameScene_Bonus_InLevel
-function startedBonus() => tally(1, inBonus() && prev(gameScene) == gameScene_Bonus_Start && gameScene == gameScene_Bonus_InLevel)
+function startedBonus() => once(inBonus() && prev(gameScene) == gameScene_Bonus_Start && gameScene == gameScene_Bonus_InLevel)
+
 function completedBonus() => inBonus() && gameScene == gameScene_Bonus_Success
 
 function highScoreReached(target){
@@ -162,6 +195,16 @@ function highScoreReached(target){
             (startedBonus() && (playingBonus() || completedBonus()))
         ) &&
         never(!inGame() && !inBonus())
+}
+
+function perfectBonusChallenge(area, target){
+    prevTarget = target - 1
+    return
+        startedBonus() &&
+        gameArea == area &&
+        prev(bonusCounterByArea[area]) == prevTarget &&
+        bonusCounter_OilArea == target &&
+        never(!inBonus())
 }
 
 function playingArea(area){
@@ -182,13 +225,17 @@ function completedGame(){
         gameArea == gameArea_FinalArea
 }
 
+function inStageClear() => gameState == gameState_StageClear
+function stageCleared() => gameState == gameState_StageClear && gameScene == gameScene_StageClear
+        
 function completedAreaNoDeath(area){
     return 
         startedLevel() &&
         gameArea == area &&
         prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss && 
-        trigger_when(gameState == gameState_StageClear && gameScene == gameScene_StageClear) &&
-        disable_when(lostLives(), gameState != gameState_InGame)
+        trigger_when(stageCleared()) &&
+        unless(lostLives()) &&
+        never(!inGame() && !inStageClear())
 }
 
 function completedGameNoDeath(){
@@ -196,8 +243,9 @@ function completedGameNoDeath(){
         startedLevel() &&
         gameArea == gameArea_FinalArea &&
         prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss && 
-        trigger_when(gameState == gameState_Ending && gameScene == gameScene_Ending) &&
-        disable_when(lostLives(), gameState != gameState_InGame)
+        trigger_when(stageCleared()) &&
+        disable_when(lostLives()) &&
+        never(!inGame() && !inStageClear())
 }
 
 function playingAreaBonus(area){
@@ -214,32 +262,61 @@ function fightingAreaBoss(area){
 
 function defeatedAreaBossMeleeOnly(area){
     return 
-        fightingBoss() &&
-        gameArea == area &&
+        startedBoss(area) &&
         prev(bossState) != bossStateByArea_Defeated[area] && 
         trigger_when(bossState == bossStateByArea_Defeated[area]) &&
-        disable_when(chargeDamage(), !fightingBoss())
+        disable_when(chargeDamage()) &&
+        never(!fightingBoss()) &&
+        never(gameArea != area)
 }
 
 function oilSlickPhaseChallenge(){
     return 
-        fightingBoss() &&
-        gameArea == gameArea_OilArea &&
-        //ResetNextIf bossState == bossState_OilArea_Bouncing
-        trigger_when(repeated(3, chargeDamage())) &&
-        (
-            never(!(fightingBoss() && gameArea == gameArea_OilArea)) || 
-            never(bossState == bossState_OilArea_Bouncing || bossState == bossState_OilArea_Defeated)
-        )
+        startedBoss(gameArea_OilArea) &&
+        trigger_when(repeated(3, chargeDamage() && never(bossState == bossState_OilArea_Bouncing))) &&
+        never(!fightingBoss()) && 
+        never(gameArea != gameArea_OilArea) && 
+        never(bossState == bossState_OilArea_Defeated)
 }
 
 function sulfuraAcidRainPhaseChallenge(){
     return 
-        fightingBoss() &&
-        gameArea == gameArea_DamArea &&
+        startedBoss(gameArea_DamArea) &&
         prev(bossState) != bossState_DamArea_Defeated &&
         trigger_when(bossState == bossState_DamArea_Defeated) &&
-        disable_when(bossState == bossState_DamArea_AcidRain, !(fightingBoss() && gameArea == gameArea_DamArea))
+        disable_when(bossState == bossState_DamArea_AcidRain) &&
+        never(!fightingBoss()) &&
+        never(gameArea != gameArea_DamArea)
+}
+
+function garbagemanPhaseChallenge(){
+    return
+        startedBoss(gameArea_DustArea) &&
+        prev(bossState) != bossState_DustArea_Defeated &&
+        trigger_when(bossState == bossState_DustArea_Defeated) &&
+        disable_when(repeated(4, prev(bossState) != bossState_DustArea_Attacking && bossState == bossState_DustArea_Attacking)) &&
+        never(!fightingBoss()) && 
+        never(gameArea != gameArea_DustArea)
+} 
+
+function smoggerPhaseChallenge(){
+    return 
+        startedBoss(gameArea_SmogArea) &&
+        prev(bossState) != bossState_SmogArea_Defeated &&
+        trigger_when(bossState == bossState_SmogArea_Defeated) &&
+        disable_when(repeated(3, prev(bossState) != bossState_SmogArea_InPipe && bossState == bossState_SmogArea_InPipe)) &&
+        never(!fightingBoss()) && 
+        never(gameArea == gameArea_SmogArea)
+}
+
+function lordContaminousPhaseChallenge(){
+    return 
+        startedBoss(gameArea_FinalArea) &&
+        prev(bossState) != bossState_FinalArea_Defeated &&
+        trigger_when(bossState == bossState_FinalArea_Defeated) &&
+        disable_when(bossState == bossState_FinalArea_Oil) &&
+        never(!fightingBoss()) && 
+        never(gameArea != gameArea_FinalArea)
 }
 
 function chargeDamage(){
@@ -377,7 +454,7 @@ achievement(
     title = "Oil Area - 100% Bonus",
     points = 5,
     description = "Complete the Oil Area Bonus Stage and save all of the Sea Birds",
-    trigger = always_true()
+    trigger = perfectBonusChallenge(gameArea_OilArea, 16)
 )
 
 //Dam Area - Complete
@@ -440,7 +517,7 @@ achievement(
     title = "Dam Area - 100% Bonus",
     points = 5,
     description = "Complete the Dam Area Bonus Stage and shoot all of the cans",
-    trigger = always_true()
+    trigger = perfectBonusChallenge(gameArea_DamArea, 16)
 )
 
 //Dust Area - Complete
@@ -487,7 +564,7 @@ achievement(
     title = "Dust Area - Phase Challenge",
     points = 3,
     description = "Defeat Garbageman in the Dust Area in 3 phases or less",
-    trigger = always_true()
+    trigger = garbagemanPhaseChallenge()
 )
 
 //Dust Area Bonus - Collect all of the cans (there's more than 15!)
@@ -495,7 +572,7 @@ achievement(
     title = "Dust Area - 100% Bonus",
     points = 5,
     description = "Complete the Dust Area Bonus Stage and collect all of the cans",
-    trigger = always_true()
+    trigger = perfectBonusChallenge(gameArea_DustArea, 18)
 )
 
 //Smog Area - Complete
@@ -542,7 +619,7 @@ achievement(
     title = "Smog Area - Phase Challenge",
     points = 3,
     description = "Defeat Smogger in the Smog Area in 2 phases or less",
-    trigger = always_true()
+    trigger = smoggerPhaseChallenge()
 )
 
 //Smog Area Bonus - Hit every smoke cloud
@@ -550,7 +627,7 @@ achievement(
     title = "Smog Area - 100% Bonus",
     points = 5,
     description = "Complete the Smog Area Bonus Stage and destroy every smoke cloud",
-    trigger = always_true()
+    trigger = perfectBonusChallenge(gameArea_SmogArea, 15)
 )
 
 //Final Area - Complete
@@ -589,8 +666,8 @@ achievement(
 achievement(
     title = "Final Area - Phase Challenge",
     points = 3,
-    description = "Free Jeremy and defeat Lord Contanimous before his Oil Phase",
-    trigger = always_true()
+    description = "Free Jeremy and defeat Lord Contanimous before reaching his Oil Phase",
+    trigger = lordContaminousPhaseChallenge()
 )
 
 //== Potential Challenges ==
