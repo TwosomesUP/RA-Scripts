@@ -115,6 +115,9 @@ bossState = byte(0xc020)
 
 bossState_DustArea_Defeated = 0x06
 
+bossState_DamArea_Floating = 0x01
+bossState_DamArea_Throwing = 0x02
+bossState_DamArea_AcidRain = 0x03
 bossState_DamArea_Defeated = 0x04
 
 bossState_SmogArea_Defeated = 0x05
@@ -236,7 +239,7 @@ function sulfuraAcidRainPhaseChallenge(){
         gameArea == gameArea_DamArea &&
         prev(bossState) != bossState_DamArea_Defeated &&
         trigger_when(bossState == bossState_DamArea_Defeated) &&
-        unless(bossState == )
+        disable_when(bossState == bossState_DamArea_AcidRain, !(fightingBoss() && gameArea == gameArea_DamArea))
 }
 
 function chargeDamage(){
@@ -429,7 +432,7 @@ achievement(
     title = "Dam Area - Phase Challenge",
     points = 3,
     description = "Defeat Sulfura in the Dam Area before her acid rain phase",
-    trigger = always_true()
+    trigger = sulfuraAcidRainPhaseChallenge()
 )
 
 //Dam Area Bonus - Shoot all of the cans
