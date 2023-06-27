@@ -342,6 +342,35 @@ function gotPowerCrystal() => noDamage() && prev(invincibility) == invincibility
 function gainedLives() => prev(playerLives) < playerLives
 function lostLives() => prev(playerLives) > playerLives
 
+function startedAreaSection(area, prevSection, targetSection){
+    return once(inGame() && gameArea == area && prev(areaSection) == prevSection && areaSection == targetSection)  
+}
+
+function completedAreaSectionChallenge(sectionStart, sectionEnd){
+    return prev(areaSection) == sectionStart && trigger_when(areaSection == sectionEnd)
+}
+
+function oilAreaLevelChallenge(){
+    return 
+        startedAreaSection(gameArea_OilArea, areaSection_OilArea_Beginning, areaSection_OilArea_PipeDecent) &&
+        completedAreaSectionChallenge(areaSection_OilArea_PipeDecent, areaSection_OilArea_Barrels) &&
+        disable_when(playerHealth < prev(playerHealth)) &&
+        disable_when(gotPowerCrystal()) &&
+        never(!inGame()) &&
+        never(gameArea != gameArea_OilArea) &&
+        never(areaSection == areaSection_OilArea_Beginning)
+}   
+
+function damAreaLevelChallenge(){
+    return 
+        startedAreaSection(gameArea_DamArea, areaSection_DamArea_WaterFallLasers, areaSection_DamArea_WaterFallAscent) &&
+        completedAreaSectionChallenge(areaSection_DamArea_WaterFallAscent, areaSection_DamArea_Boss) &&
+        disable_when(playerYCoordinate >= 0x75) &&
+        never(!inGame()) &&
+        never(gameArea != gameArea_DamArea) &&
+        never(areaSection == areaSection_DamArea_WaterFallLasers)
+}
+
 //Achievements
 
 //High Score >= 30000
@@ -426,7 +455,7 @@ achievement(
     title = "Oil Area - Pipes Decent",
     points = 3,
     description = "Reach the bottom of the Pipes Decent in the Oil Area without taking damage (no power crystal)",
-    trigger = always_true()
+    trigger = oilAreaLevelChallenge()
 )
 
 //Oil Area - Defeat Oil Slick (Melee Only)
@@ -485,15 +514,7 @@ achievement(
     title = "Dam Area - Waterfall Ascent", 
     points = 3,
     description = "Reach the top of the Waterfall Ascent in the Dam Area without falling too far",
-    trigger = 
-        playingArea(gameArea_DamArea) &&
-        prev(areaSection) == areaSection_DamArea_WaterFallAscent &&
-        trigger_when(areaSection == areaSection_DamArea_Boss) &&
-        disable_when
-        (
-            gameArea == gameArea_DamArea && areaSection == areaSection_DamArea_WaterFallAscent && playerYCoordinate >= 0x70, 
-            lostLives() || !inGame() || (gameArea == gameArea_DamArea && fightingBoss())
-        )
+    trigger = damAreaLevelChallenge()
 )
 
 //Dam Area - Defeat Sulfura (Melee Only)
