@@ -382,6 +382,30 @@ function dustAreaLevelChallenge(){
         never(areaSection == areaSection_DustArea_Beginning)
 }
 
+function smogAreaLevelChallenge(){
+    return 
+        startedAreaSection(gameArea_SmogArea, areaSection_SmogArea_Beginning, areaSection_SmogArea_AcidRain) &&
+        completedAreaSectionChallenge(areaSection_SmogArea_AcidRain, areaSection_SmogArea_AcidRainEnd) &&
+        disable_when(playerHealth < prev(playerHealth)) &&
+        disable_when(itemCollected() && gotPowerCrystal()) &&
+        never(!inGame()) &&
+        never(gameArea != gameArea_SmogArea) &&
+        never(areaSection == areaSection_SmogArea_Beginning)
+}
+
+//Make sure player is in the proper section before they take damage
+function finalAreaLevelChallenge(){
+    return
+        startedAreaSection(gameArea_FinalArea, areaSection_FinalArea_Flames, areaSection_FinalArea_RockFallDecent) &&
+        trigger_when(once(itemCollected() && gainedLives())) &&
+        completedAreaSectionChallenge(areaSection_FinalArea_RockFallDecent, areaSection_FinalArea_Skulls) &&
+        disable_when(playerHealth < prev(playerHealth)) &&
+        disable_when(itemCollected() && gotPowerCrystal()) &&
+        never(!inGame()) &&
+        never(gameArea != gameArea_FinalArea) &&
+        never(areaSection == areaSection_FinalArea_Flames)
+}
+
 //Achievements
 
 //High Score >= 30000
@@ -634,8 +658,8 @@ achievement(
 achievement(
     title = "Smog Area - Acid Rain",
     points = 3,
-    description = "Reach the end of the Acid Rain section of the Smog Area without getting taking damage from the rain (no power crystal)",
-    trigger = always_true()
+    description = "Reach the end of the Acid Rain section of the Smog Area without getting taking damage (no power crystal)",
+    trigger = smogAreaLevelChallenge()
 )
 
 //Smog Area - Defeat Smogger (Melee Only)
@@ -682,8 +706,8 @@ achievement(
 achievement(
     title = "Final Area - Rockfall Decent",
     points = 3,
-    description = "Collect each item during the Rockfall Decent in the Final Area and reach the bottom without taking damage (now power crystal)",
-    trigger = always_true()
+    description = "Collect the Zen Up during the Rockfall Decent in the Final Area and reach the bottom without taking damage (no power crystal)",
+    trigger = finalAreaLevelChallenge()
 )
 
 //Final Area - Free Jeremy and defeat Lord Contanimous (Melee Only)
@@ -708,11 +732,6 @@ achievement(
 //Dam Area - All Items
 //Dust Area - All Items
 //Smog Area - All Items
-
-//Oil Area - No Damage
-//Dam Area - No Damage
-//Dust Area - No Damage
-//Smog Area - No Damage
 
 //Defeat Each Enemy Type
 //Complete Game No Charge
