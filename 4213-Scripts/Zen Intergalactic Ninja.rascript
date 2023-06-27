@@ -347,7 +347,7 @@ function startedAreaSection(area, prevSection, targetSection){
 }
 
 function completedAreaSectionChallenge(sectionStart, sectionEnd){
-    return prev(areaSection) == sectionStart && trigger_when(areaSection == sectionEnd)
+    return trigger_when(prev(areaSection) == sectionStart && areaSection == sectionEnd)
 }
 
 function oilAreaLevelChallenge(){
@@ -355,7 +355,7 @@ function oilAreaLevelChallenge(){
         startedAreaSection(gameArea_OilArea, areaSection_OilArea_Beginning, areaSection_OilArea_PipeDecent) &&
         completedAreaSectionChallenge(areaSection_OilArea_PipeDecent, areaSection_OilArea_Barrels) &&
         disable_when(playerHealth < prev(playerHealth)) &&
-        disable_when(gotPowerCrystal()) &&
+        disable_when(itemCollected() && gotPowerCrystal()) &&
         never(!inGame()) &&
         never(gameArea != gameArea_OilArea) &&
         never(areaSection == areaSection_OilArea_Beginning)
@@ -369,6 +369,17 @@ function damAreaLevelChallenge(){
         never(!inGame()) &&
         never(gameArea != gameArea_DamArea) &&
         never(areaSection == areaSection_DamArea_WaterFallLasers)
+}
+
+function dustAreaLevelChallenge(){
+    return 
+        startedAreaSection(gameArea_DustArea, areaSection_DustArea_Beginning, areaSection_DustArea_AvalancheDecent) &&
+        trigger_when(once(itemCollected() && gainedLives())) &&
+        completedAreaSectionChallenge(areaSection_DustArea_AvalancheDecent, areaSection_DustArea_SpikePresses) &&
+        disable_when(lostLives()) &&
+        never(!inGame()) &&
+        never(gameArea != gameArea_DustArea) &&
+        never(areaSection == areaSection_DustArea_Beginning)
 }
 
 //Achievements
@@ -569,7 +580,7 @@ achievement(
     title = "Dust Area - Mudslide Decent",
     points = 3,
     description = "Collect the Zen Up during the Mudlide Decent in the Dust Area and reach the bottom without dying",
-    trigger = always_true()
+    trigger = dustAreaLevelChallenge()
 )
 
 //Dust Area - Defeat Garbageman (Melee Only)
