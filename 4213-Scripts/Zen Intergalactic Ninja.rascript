@@ -179,32 +179,33 @@ function playingLevel() => inGame() && gameScene == gameScene_InGame_InLevel
 function startedBoss(area) => once(inGame() && gameArea == area && prev(gameScene) == gameScene_InGame_PreBoss && gameScene == gameScene_InGame_Boss)
 function fightingBoss() => inGame() && gameScene == gameScene_InGame_Boss
 function startedLevel() => once(inGame() && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel)
+function startedLevel_w_Reset() => once(inGame() && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel && never(!inGame()))
 function completedLevel() => (prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss) && (gameState == gameState_StageClear && gameScene == gameScene_StageClear)
 function completedFinalLevel() => (prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss) && (gameState == gameState_Ending && gameScene == gameScene_Ending) 
 
 function playingBonus() => inBonus() && gameScene == gameScene_Bonus_InLevel
 function startedBonus() => once(inBonus() && prev(gameScene) == gameScene_Bonus_Start && gameScene == gameScene_Bonus_InLevel)
+function startedBonus_w_Reset() => once(inBonus() && prev(gameScene) == gameScene_Bonus_Start && gameScene == gameScene_Bonus_InLevel && never(!inBonus()))
 
 function completedBonus() => inBonus() && gameScene == gameScene_Bonus_Success
 
 function highScoreReached(target){
-    return 
-        (prev(score) <= target && score > target) &&
+    return      
+        prev(score) <= target && 
+        score > target &&
         (
-            (startedLevel() && (playingLevel() || fightingBoss())) ||
-            (startedBonus() && (playingBonus() || completedBonus()))
-        ) &&
-        never(!inGame() && !inBonus())
+            startedLevel_w_Reset() ||
+            startedBonus_w_Reset() 
+        ) 
 }
 
 function perfectBonusChallenge(area, target){
     prevTarget = target - 1
     return
-        startedBonus() &&
+        startedBonus_w_Reset() &&
         gameArea == area &&
         prev(bonusCounterByArea[area]) == prevTarget &&
-        bonusCounter_OilArea == target &&
-        never(!inBonus())
+        bonusCounterByArea[area] == target
 }
 
 function playingArea(area){
@@ -354,56 +355,65 @@ function oilAreaLevelChallenge(){
     return 
         startedAreaSection(gameArea_OilArea, areaSection_OilArea_Beginning, areaSection_OilArea_PipeDecent) &&
         completedAreaSectionChallenge(areaSection_OilArea_PipeDecent, areaSection_OilArea_Barrels) &&
-        disable_when(playerHealth < prev(playerHealth)) &&
-        disable_when(itemCollected() && gotPowerCrystal()) &&
-        never(!inGame()) &&
-        never(gameArea != gameArea_OilArea) &&
-        never(areaSection == areaSection_OilArea_Beginning)
+        disable_when(gameArea == gameArea_OilArea && areaSection == areaSection_OilArea_PipeDecent && playerHealth < prev(playerHealth)) &&
+        disable_when(gameArea == gameArea_OilArea && areaSection == areaSection_OilArea_PipeDecent && itemCollected() && gotPowerCrystal()) &&
+        (
+            never(!inGame()) ||
+            never(gameArea != gameArea_OilArea) ||
+            never(areaSection == areaSection_OilArea_Beginning)
+        )
 }   
 
 function damAreaLevelChallenge(){
     return 
         startedAreaSection(gameArea_DamArea, areaSection_DamArea_WaterFallLasers, areaSection_DamArea_WaterFallAscent) &&
         completedAreaSectionChallenge(areaSection_DamArea_WaterFallAscent, areaSection_DamArea_Boss) &&
-        disable_when(playerYCoordinate >= 0x75) &&
-        never(!inGame()) &&
-        never(gameArea != gameArea_DamArea) &&
-        never(areaSection == areaSection_DamArea_WaterFallLasers)
+        disable_when(gameArea == gameArea_DamArea && areaSection == areaSection_DamArea_WaterFallAscent && playerYCoordinate >= 0x75) &&
+        (
+            never(!inGame()) ||
+            never(gameArea != gameArea_DamArea) ||
+            never(areaSection == areaSection_DamArea_WaterFallLasers)
+        )
 }
 
 function dustAreaLevelChallenge(){
     return 
         startedAreaSection(gameArea_DustArea, areaSection_DustArea_Beginning, areaSection_DustArea_AvalancheDecent) &&
-        trigger_when(once(itemCollected() && gainedLives())) &&
+        trigger_when(once(gameArea == gameArea_DustArea && areaSection == areaSection_DustArea_AvalancheDecent && itemCollected() && gainedLives())) &&
         completedAreaSectionChallenge(areaSection_DustArea_AvalancheDecent, areaSection_DustArea_SpikePresses) &&
-        disable_when(lostLives()) &&
-        never(!inGame()) &&
-        never(gameArea != gameArea_DustArea) &&
-        never(areaSection == areaSection_DustArea_Beginning)
+        disable_when(gameArea == gameArea_DustArea && areaSection == areaSection_DustArea_AvalancheDecent && lostLives()) &&
+        (
+            never(!inGame()) ||
+            never(gameArea != gameArea_DustArea) ||
+            never(areaSection == areaSection_DustArea_Beginning)
+        )
 }
 
 function smogAreaLevelChallenge(){
     return 
         startedAreaSection(gameArea_SmogArea, areaSection_SmogArea_Beginning, areaSection_SmogArea_AcidRain) &&
         completedAreaSectionChallenge(areaSection_SmogArea_AcidRain, areaSection_SmogArea_AcidRainEnd) &&
-        disable_when(playerHealth < prev(playerHealth)) &&
-        disable_when(itemCollected() && gotPowerCrystal()) &&
-        never(!inGame()) &&
-        never(gameArea != gameArea_SmogArea) &&
-        never(areaSection == areaSection_SmogArea_Beginning)
+        disable_when(gameArea == gameArea_SmogArea && areaSection == areaSection_SmogArea_AcidRain && playerHealth < prev(playerHealth)) &&
+        disable_when(gameArea == gameArea_SmogArea && areaSection == areaSection_SmogArea_AcidRain && itemCollected() && gotPowerCrystal()) &&
+        (
+            never(!inGame()) ||
+            never(gameArea != gameArea_SmogArea) ||
+            never(areaSection == areaSection_SmogArea_Beginning)
+        )
 }
 
-//Make sure player is in the proper section before they take damage
 function finalAreaLevelChallenge(){
     return
         startedAreaSection(gameArea_FinalArea, areaSection_FinalArea_Flames, areaSection_FinalArea_RockFallDecent) &&
-        trigger_when(once(itemCollected() && gainedLives())) &&
+        trigger_when(once(gameArea == gameArea_FinalArea && areaSection == areaSection_FinalArea_RockFallDecent && itemCollected() && gainedLives())) &&
         completedAreaSectionChallenge(areaSection_FinalArea_RockFallDecent, areaSection_FinalArea_Skulls) &&
-        disable_when(playerHealth < prev(playerHealth)) &&
-        disable_when(itemCollected() && gotPowerCrystal()) &&
-        never(!inGame()) &&
-        never(gameArea != gameArea_FinalArea) &&
-        never(areaSection == areaSection_FinalArea_Flames)
+        disable_when(gameArea == gameArea_FinalArea && areaSection == areaSection_FinalArea_RockFallDecent && playerHealth < prev(playerHealth)) &&
+        disable_when(gameArea == gameArea_FinalArea && areaSection == areaSection_FinalArea_RockFallDecent && itemCollected() && gotPowerCrystal()) &&
+        (
+            never(!inGame()) ||
+            never(gameArea != gameArea_FinalArea) ||
+            never(areaSection == areaSection_FinalArea_Flames)
+        )
 }
 
 //Achievements
