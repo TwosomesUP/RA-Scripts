@@ -188,6 +188,8 @@ function playingLevel() => inGame() && gameScene == gameScene_InGame_InLevel
 function startedBoss(area) => once(inGame() && gameArea == area && prev(gameScene) == gameScene_InGame_PreBoss && gameScene == gameScene_InGame_Boss)
 function fightingBoss() => inGame() && gameScene == gameScene_InGame_Boss
 function startedLevel() => once(inGame() && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel)
+function startedArea(area) => once(inGame() && gameArea == area && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel)
+function startedArea_w_Reset(area) => once(inGame() && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel && gameArea == area && never(gameArea != area && !inGame()))
 function startedLevel_w_Reset() => once(inGame() && prev(gameScene) == gameScene_InGame_Start && gameScene == gameScene_InGame_InLevel && never(!inGame()))
 function completedLevel() => (prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss) && (gameState == gameState_StageClear && gameScene == gameScene_StageClear)
 function completedFinalLevel() => (prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss) && (gameState == gameState_Ending && gameScene == gameScene_Ending) 
@@ -236,26 +238,29 @@ function completedGame(){
 }
 
 function inStageClear() => gameState == gameState_StageClear
-function stageCleared() => gameState == gameState_StageClear && gameScene == gameScene_StageClear
-        
+function stageCleared() => prev(gameState) == gameState_InGame && gameState == gameState_StageClear
+function finalStageCleared() => prev(gameState) == gameState_InGame && gameState == gameState_Ending
+         
 function completedAreaNoDeath(area){
     return 
-        startedLevel() &&
-        gameArea == area &&
-        prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss && 
+        startedArea(area) &&
         trigger_when(stageCleared()) &&
-        unless(lostLives()) &&
-        never(!inGame() && !inStageClear())
+        disable_when(gameArea == area && lostLives()) &&
+        (
+            never(gameArea != area) ||
+            never(!inGame() && !inStageClear()) 
+        )
 }
 
 function completedGameNoDeath(){
     return 
-        startedLevel() &&
-        gameArea == gameArea_FinalArea &&
-        prev(gameState) == gameState_InGame && prev(gameScene) == gameScene_InGame_Boss && 
-        trigger_when(stageCleared()) &&
-        disable_when(lostLives()) &&
-        never(!inGame() && !inStageClear())
+        startedArea(gameArea_FinalArea) &&
+        trigger_when(finalStageCleared()) &&
+        disable_when(gameArea == gameArea_FinalArea && lostLives()) &&
+        (    
+            never(gameArea != gameArea_FinalArea) ||
+            never(!inGame() && !inStageClear())
+        )
 }
 
 function playingAreaBonus(area){
@@ -276,8 +281,10 @@ function defeatedAreaBossMeleeOnly(area){
         prev(bossState) != bossStateByArea_Defeated[area] && 
         trigger_when(bossState == bossStateByArea_Defeated[area]) &&
         disable_when(chargeDamage()) &&
-        never(!fightingBoss()) &&
-        never(gameArea != area)
+        (
+            never(!fightingBoss()) ||
+            never(gameArea != area)
+        )
 }
 
 function oilSlickPhaseChallenge(){
@@ -381,7 +388,7 @@ function damAreaLevelChallenge(){
     return 
         startedAreaSection(gameArea_DamArea, areaSection_DamArea_WaterFallLasers, areaSection_DamArea_WaterFallAscent) &&
         completedAreaSectionChallenge(areaSection_DamArea_WaterFallAscent, areaSection_DamArea_Boss) &&
-        disable_when(gameArea == gameArea_DamArea && areaSection == areaSection_DamArea_WaterFallAscent && playerYCoordinate >= 0x75) &&
+        disable_when(gameArea == gameArea_DamArea && areaSection == areaSection_DamArea_WaterFallAscent && playerYCoordinate >= 0x70) &&
         (
             never(!inGame()) ||
             never(gameArea != gameArea_DamArea) ||
