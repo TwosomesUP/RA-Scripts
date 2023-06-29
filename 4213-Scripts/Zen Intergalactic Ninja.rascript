@@ -290,7 +290,7 @@ function defeatedAreaBossMeleeOnly(area){
 function oilSlickPhaseChallenge(){
     return 
         startedBoss(gameArea_OilArea) &&
-        trigger_when(repeated(3, chargeDamage() && never(bossState == bossState_OilArea_Bouncing))) &&
+        trigger_when(repeated(3, gameArea == gameArea_OilArea && chargeDamage() && never(bossState == bossState_OilArea_Bouncing))) &&
         never(!fightingBoss()) && 
         never(gameArea != gameArea_OilArea) && 
         never(bossState == bossState_OilArea_Defeated)
@@ -299,41 +299,49 @@ function oilSlickPhaseChallenge(){
 function sulfuraAcidRainPhaseChallenge(){
     return 
         startedBoss(gameArea_DamArea) &&
-        prev(bossState) != bossState_DamArea_Defeated &&
-        trigger_when(bossState == bossState_DamArea_Defeated) &&
-        disable_when(bossState == bossState_DamArea_AcidRain) &&
-        never(!fightingBoss()) &&
-        never(gameArea != gameArea_DamArea)
+        prev(bossHealth) != 0x00 &&
+        trigger_when(bossHealth == 0x00) &&
+        disable_when(gameArea == gameArea_DamArea && bossState == bossState_DamArea_AcidRain) &&
+        (
+            never(!fightingBoss()) ||
+            never(gameArea != gameArea_DamArea)
+        )
 }
 
 function garbagemanPhaseChallenge(){
     return
         startedBoss(gameArea_DustArea) &&
-        prev(bossState) != bossState_DustArea_Defeated &&
-        trigger_when(bossState == bossState_DustArea_Defeated) &&
-        disable_when(repeated(4, prev(bossState) != bossState_DustArea_Attacking && bossState == bossState_DustArea_Attacking)) &&
-        never(!fightingBoss()) && 
-        never(gameArea != gameArea_DustArea)
+        prev(bossHealth) != 0x00 &&
+        trigger_when(bossHealth == 0x00) &&
+        disable_when(repeated(3, gameArea == gameArea_DustArea && prev(bossState) != bossState_DustArea_Attacking && bossState == bossState_DustArea_Attacking)) &&
+        (
+            never(!fightingBoss()) ||
+            never(gameArea != gameArea_DustArea)
+        )
 } 
 
 function smoggerPhaseChallenge(){
     return 
         startedBoss(gameArea_SmogArea) &&
-        prev(bossState) != bossState_SmogArea_Defeated &&
-        trigger_when(bossState == bossState_SmogArea_Defeated) &&
-        disable_when(repeated(3, prev(bossState) != bossState_SmogArea_InPipe && bossState == bossState_SmogArea_InPipe)) &&
-        never(!fightingBoss()) && 
-        never(gameArea == gameArea_SmogArea)
+        prev(bossHealth) != 0x00 &&
+        trigger_when(bossHealth == 0x00) &&
+        disable_when(repeated(3, gameArea == gameArea_SmogArea && prev(bossState) != bossState_SmogArea_InPipe && bossState == bossState_SmogArea_InPipe)) &&
+        (
+            never(!fightingBoss()) || 
+            never(gameArea == gameArea_SmogArea)
+        )
 }
 
 function lordContaminousPhaseChallenge(){
     return 
         startedBoss(gameArea_FinalArea) &&
-        prev(bossState) != bossState_FinalArea_Defeated &&
-        trigger_when(bossState == bossState_FinalArea_Defeated) &&
-        disable_when(bossState == bossState_FinalArea_Oil) &&
-        never(!fightingBoss()) && 
-        never(gameArea != gameArea_FinalArea)
+        prev(bossHealth) != 0x00 &&
+        trigger_when(bossHealth == 0x00) &&
+        disable_when(gameArea == gameArea_FinalArea && bossState == bossState_FinalArea_Oil) && 
+        (
+            never(!fightingBoss()) || 
+            never(gameArea != gameArea_FinalArea)
+        )
 }
 
 function chargeDamage(){
@@ -652,7 +660,7 @@ achievement(
 achievement(
     title = "Dust Area - Phase Challenge",
     points = 3,
-    description = "Defeat Garbageman in the Dust Area in 3 phases or less",
+    description = "Defeat Garbageman in the Dust Area in 2 phases or less",
     trigger = garbagemanPhaseChallenge()
 )
 
