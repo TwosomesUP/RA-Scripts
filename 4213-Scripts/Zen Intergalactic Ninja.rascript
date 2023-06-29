@@ -1,11 +1,6 @@
 // Zen: Intergalactic Ninja
 // #ID = 4213
 
-
-//Move resets to alts for Melee only, phase challenges, and no deaths
-//Double check phase challenge phases and defeated states
-//Fix challenge indicator for no death challenges (only appears during boss fight)
-
 //Memory Accessors
 
 //Screen Coordinates
@@ -447,8 +442,6 @@ function finalAreaLevelChallenge(){
 //Achievements
 
 //High Score >= 30000
-//  - level started and in level || bonus started and in bonus or bonus completed
-//  - score >= 30000 && delta(score) < 30000
 achievement(
     title = "High Score > 30000",
     points = 5,
@@ -457,9 +450,6 @@ achievement(
 )
 
 //High Score >= 120000
-//  - in level or fighting boss || in bonus or on bonus complete
-//  - score >= 120000 && delta(score) < 120000
-//  - requires no continues and perfect bonus completions
 achievement(
     title = "High Score > 120000",
     points = 25,
@@ -468,9 +458,6 @@ achievement(
 )
 
 //Collect a Power Crystal and become invulnerable
-//  - in level
-//  - collect an item
-//  - become invulnerable (not from damage)
 achievement(
     title = "Power Crystal Collected",
     points = 1,
@@ -479,9 +466,6 @@ achievement(
 )
 
 //Collect a Life Up item and replenish your health
-//  - in level
-//  - collect an item
-//  - replenish life (can be at max)
 achievement(
     title = "Life Up Collected",
     points = 1,
@@ -490,9 +474,6 @@ achievement(
 )
 
 //Collect a Zen Up item and increase your lives
-//  - in level
-//  - collect an item
-//  - gain a life
 achievement(
     title = "Zen Up Collected",
     points = 1,
@@ -501,9 +482,6 @@ achievement(
 )
 
 //Oil Area - Complete
-//  - current area == oil area
-//  - previously fighting boss
-//  - currently on success screen
 achievement(
     title = "Oil Area - Complete",
     points = 2,
@@ -511,12 +489,7 @@ achievement(
     trigger = completedArea(gameArea_OilArea)
 )
 
-//challenge indicator only appearing during boss
-//Oil Area - Complete (No Deaths)
-//  - current area == oil area
-//  - previously fighting boss
-//  - currently on success screen
-//  - don't die
+//Oil Area - No Deaths
 achievement(
     title = "Oil Area - No Deaths",
     points = 10,
@@ -526,20 +499,16 @@ achievement(
 
 //Oil Area - Reach the bottom of the Pipes Decent without taking damage (No Crystal)
 achievement(
-    title = "Oil Area - Pipes Decent",
+    title = "Down the Drain",
     points = 10,
     description = "Reach the bottom of the Pipes Decent in the Oil Area without taking damage (no power crystal)",
     trigger = oilAreaLevelChallenge()
 )
 
 //Oil Area - Defeat Oil Slick (Melee Only)
-//  - prev fighting boss
-//  - boss defeated
-//  - pause if charge damages boss
-//  - reset if not fighting boss or not in game
 achievement(
-    title = "Oil Area - Melee Only",
-    points = 5,
+    title = "Not that Slick",
+    points = 10,
     description = "Defeat Oil Slick in the Oil Area using only melee attacks",
     trigger = defeatedAreaBossMeleeOnly(gameArea_OilArea)
 )
@@ -547,23 +516,20 @@ achievement(
 //Hit the Oil Area Boss 3 times with your charged attack in a single phase
 achievement(
     title = "Oil Area - Phase Challenge",
-    points = 3,
+    points = 5,
     description = "Damage Oil Slick 3 times with charged attacks in a single phase",
     trigger = oilSlickPhaseChallenge()
 )
 
 //Oil Area Bonus - Save all of the Sea Birds
 achievement(
-    title = "Oil Area - 100% Bonus",
+    title = "Seabird Sanctuary",
     points = 5,
     description = "Complete the Oil Area Bonus Stage and save all of the Sea Birds",
     trigger = perfectBonusChallenge(gameArea_OilArea, 16)
 )
 
 //Dam Area - Complete
-//  - current area == dam area
-//  - previously fighting boss
-//  - currently on success screen
 achievement(
     title = "Dam Area - Complete",
     points = 2,
@@ -572,21 +538,16 @@ achievement(
 )
 
 //Dam Area - Complete (No Deaths)
-//  - current area == dam area
-//  - previously fighting boss
-//  - currently on success screen
-//  - don't die
 achievement(
     title = "Dam Area - No Deaths",
-    points = 10,
+    points = 5,
     description = "Complete the Dam Area without losing a life",
     trigger = completedAreaNoDeath(gameArea_DamArea)
 )
 
-//Make value smaller for fall amount
 //Dam Area - Reach the top of the Waterfall Ascent without falling
 achievement(
-    title = "Dam Area - Waterfall Ascent", 
+    title = "Fighting the Current", 
     points = 5,
     description = "Reach the top of the Waterfall Ascent in the Dam Area without falling too far",
     trigger = damAreaLevelChallenge()
@@ -594,32 +555,29 @@ achievement(
 
 //Dam Area - Defeat Sulfura (Melee Only)
 achievement(
-    title = "Dam Area - Melee Only",
-    points = 5,
+    title = "Rainy Day Parade",
+    points = 10,
     description = "Defeat Sulfura in the Dam Area using only melee attacks",
     trigger = defeatedAreaBossMeleeOnly(gameArea_DamArea)
 )
 
 //Defeat the Dam Area Boss before her acid rain phase
 achievement(
-    title = "Dam Area - Phase Challenge",
-    points = 3,
+    title = "Rain Check",
+    points = 5,
     description = "Defeat Sulfura in the Dam Area before her acid rain phase",
     trigger = sulfuraAcidRainPhaseChallenge()
 )
 
 //Dam Area Bonus - Shoot all of the cans
 achievement(
-    title = "Dam Area - 100% Bonus",
+    title = "Nature is Saved",
     points = 5,
     description = "Complete the Dam Area Bonus Stage and shoot all of the cans",
     trigger = perfectBonusChallenge(gameArea_DamArea, 16)
 )
 
 //Dust Area - Complete
-//  - current area == dust area
-//  - previously fighting boss
-//  - currently on success screen
 achievement(
     title = "Dust Area - Complete",
     points = 2,
@@ -628,13 +586,9 @@ achievement(
 )
 
 //Dust Area - Complete (No Deaths)
-//  - current area == dust area
-//  - previously fighting boss
-//  - currently on success screen
-//  - don't die
 achievement(
     title = "Dust Area - No Deaths",
-    points = 10,
+    points = 5,
     description = "Complete the Dust Area without losing a life",
     trigger = completedAreaNoDeath(gameArea_DustArea)
 )
@@ -649,17 +603,16 @@ achievement(
 
 //Dust Area - Defeat Garbageman (Melee Only)
 achievement(
-    title = "Dust Area - Melee Only",
-    points = 5,
+    title = "Stinky Stopper",
+    points = 10,
     description = "Defeat Garbageman in the Dust Area using only melee attacks",
     trigger = defeatedAreaBossMeleeOnly(gameArea_DustArea)
 )
 
-//Didn't trigger - double check phase count and defeated state
 //Defeat the Dust Area Boss in 3 phases or less
 achievement(
-    title = "Dust Area - Phase Challenge",
-    points = 3,
+    title = "Taking out the Trash",
+    points = 5,
     description = "Defeat Garbageman in the Dust Area in 2 phases or less",
     trigger = garbagemanPhaseChallenge()
 )
@@ -673,9 +626,6 @@ achievement(
 )
 
 //Smog Area - Complete
-//  - current area == smog area
-//  - previously fighting boss
-//  - currently on success screen
 achievement(
     title = "Smog Area - Complete",
     points = 2,
@@ -684,45 +634,40 @@ achievement(
 )
 
 //Smog Area - Complete (No Deaths)
-//  - current area == smog area
-//  - previously fighting boss
-//  - currently on success screen
-//  - don't die
 achievement(
     title = "Smog Area - No Deaths",
-    points = 10,
+    points = 5,
     description = "Complete the Smog Area without losing a life",
     trigger = completedAreaNoDeath(gameArea_SmogArea)
 )
 
 //Smog Area - Don't get hit by the acid rain during the Acid Rain section
 achievement(
-    title = "Smog Area - Acid Rain",
+    title = "Storm Sidestepper",
     points = 5,
-    description = "Reach the end of the Acid Rain section of the Smog Area without getting taking damage (no power crystal)",
+    description = "Reach the end of the Acid Rain section of the Smog Area without taking damage from any source (no power crystal)",
     trigger = smogAreaLevelChallenge()
 )
 
 //Smog Area - Defeat Smogger (Melee Only)
 achievement(
-    title = "Smog Area - Melee Only",
-    points = 5,
+    title = "Clean Air Reigns",
+    points = 10,
     description = "Defeat Smogger in the Smog Area using only melee attacks",
     trigger = defeatedAreaBossMeleeOnly(gameArea_SmogArea)
 )
 
-//Double check phase count for smog
 //Defeat the Smog Area Boss in 2 phases or less
 achievement(
     title = "Smog Area - Phase Challenge",
-    points = 3,
+    points = 5,
     description = "Defeat Smogger in the Smog Area in 2 phases or less",
     trigger = smoggerPhaseChallenge()
 )
 
 //Smog Area Bonus - Hit every smoke cloud
 achievement(
-    title = "Smog Area - 100% Bonus",
+    title = "Clear Skies",
     points = 5,
     description = "Complete the Smog Area Bonus Stage and destroy every smoke cloud",
     trigger = perfectBonusChallenge(gameArea_SmogArea, 15)
@@ -730,45 +675,40 @@ achievement(
 
 //Final Area - Complete
 achievement(
-    title = "Final Area - Complete",
+    title = "Emission Accomplished",
     points = 4,
     description = "Complete the Final Area",
     trigger = completedGame()
 )
 
-//Move reset to alt
-//Check for death only on this stage
 //Final Area - Complete (No Deaths)
 achievement(
-    title = "Final Area - No Deaths",
-    points = 10,
+    title = "Flawless Finale",
+    points = 5,
     description = "Complete the Final Area without losing a life",
     trigger = completedGameNoDeath()
 )
 
 //Final Area - Reach the bottom of the Rockfall Decent without taking damage (No Crystal)
 achievement(
-    title = "Final Area - Rockfall Decent",
+    title = "Hard Rain",
     points = 10,
     description = "Collect the Zen Up during the Rockfall Decent in the Final Area and reach the bottom without taking damage (no power crystal)",
     trigger = finalAreaLevelChallenge()
 )
 
-//Move resets to alts
 //Final Area - Free Jeremy and defeat Lord Contanimous (Melee Only)
 achievement(
-    title = "Final Area - Melee Only",
-    points = 5,
+    title = "Creepazoid Crusher",
+    points = 10,
     description = "Free Jeremy and defeat Lord Contanimous in the Final Area using only melee attacks",
     trigger = defeatedAreaBossMeleeOnly(gameArea_FinalArea)
 )
 
-//Move resets to alts
-//double check phase value
 //Final Area - Phase Challenge - Defeat the boss before the Oil Phase
 achievement(
-    title = "Final Area - Phase Challenge",
-    points = 3,
+    title = "Industrial Wasted",
+    points = 5,
     description = "Free Jeremy and defeat Lord Contanimous before reaching his Oil Phase",
     trigger = lordContaminousPhaseChallenge()
 )
