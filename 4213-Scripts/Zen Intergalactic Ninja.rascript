@@ -443,7 +443,7 @@ function finalAreaLevelChallenge(){
 
 //High Score >= 30000
 achievement(
-    title = "High Score > 30000",
+    title = "Zen-sational",
     points = 5,
     description = "Achieve a high score greater than 30000",
     trigger = highScoreReached(0x300)  
@@ -451,7 +451,7 @@ achievement(
 
 //High Score >= 120000
 achievement(
-    title = "High Score > 120000",
+    title = "Peak Zen",
     points = 25,
     description = "Achieve a high score greater than 120000",
     trigger = highScoreReached(0x1200)    
@@ -459,7 +459,7 @@ achievement(
 
 //Collect a Power Crystal and become invulnerable
 achievement(
-    title = "Power Crystal Collected",
+    title = "The Power of Zen",
     points = 1,
     description = "Collect a Power Crystal and become invulnerable",
     trigger = playingLevel() && itemCollected() && gotPowerCrystal()
@@ -467,7 +467,7 @@ achievement(
 
 //Collect a Life Up item and replenish your health
 achievement(
-    title = "Life Up Collected",
+    title = "Zen-durance Up",
     points = 1,
     description = "Collected a Life Up item and replenished your health",
     trigger = playingLevel() && itemCollected() && gainedHealth()
@@ -475,7 +475,7 @@ achievement(
 
 //Collect a Zen Up item and increase your lives
 achievement(
-    title = "Zen Up Collected",
+    title = "One Life, One Zen",
     points = 1,
     description = "Collected a Zen Up item and increase your lives",
     trigger = playingLevel() && itemCollected() && gainedLives()
@@ -483,7 +483,7 @@ achievement(
 
 //Oil Area - Complete
 achievement(
-    title = "Oil Area - Complete",
+    title = "One Slick Ticket",
     points = 2,
     description = "Complete the Oil Area",
     trigger = completedArea(gameArea_OilArea)
@@ -491,7 +491,7 @@ achievement(
 
 //Oil Area - No Deaths
 achievement(
-    title = "Oil Area - No Deaths",
+    title = "Down with the Slickness",
     points = 10,
     description = "Complete the Oil Area without losing a life",
     trigger = completedAreaNoDeath(gameArea_OilArea)
@@ -515,7 +515,7 @@ achievement(
 
 //Hit the Oil Area Boss 3 times with your charged attack in a single phase
 achievement(
-    title = "Oil Area - Phase Challenge",
+    title = "Greased Lightning",
     points = 5,
     description = "Damage Oil Slick 3 times with charged attacks in a single phase",
     trigger = oilSlickPhaseChallenge()
@@ -531,7 +531,7 @@ achievement(
 
 //Dam Area - Complete
 achievement(
-    title = "Dam Area - Complete",
+    title = "Did the Dam Thing",
     points = 2,
     description = "Complete the Dam Area",
     trigger = completedArea(gameArea_DamArea)
@@ -539,7 +539,7 @@ achievement(
 
 //Dam Area - Complete (No Deaths)
 achievement(
-    title = "Dam Area - No Deaths",
+    title = "Dam Right!",
     points = 5,
     description = "Complete the Dam Area without losing a life",
     trigger = completedAreaNoDeath(gameArea_DamArea)
@@ -579,7 +579,7 @@ achievement(
 
 //Dust Area - Complete
 achievement(
-    title = "Dust Area - Complete",
+    title = "Done and Dusted",
     points = 2,
     description = "Complete the Dust Area",
     trigger = completedArea(gameArea_DustArea)
@@ -587,7 +587,7 @@ achievement(
 
 //Dust Area - Complete (No Deaths)
 achievement(
-    title = "Dust Area - No Deaths",
+    title = "Eat my Dust",
     points = 5,
     description = "Complete the Dust Area without losing a life",
     trigger = completedAreaNoDeath(gameArea_DustArea)
@@ -595,7 +595,7 @@ achievement(
 
 //Dust Area - Collect the 1UP during the Mudslide Decent without dying
 achievement(
-    title = "Dust Area - Mudslide Decent",
+    title = "Clear as Mud",
     points = 5,
     description = "Collect the Zen Up during the Mudslide Decent in the Dust Area and reach the bottom without losing a life",
     trigger = dustAreaLevelChallenge()
@@ -619,7 +619,7 @@ achievement(
 
 //Dust Area Bonus - Collect all of the cans (there's more than 15!)
 achievement(
-    title = "Dust Area - 100% Bonus",
+    title = "Not a Garbage Can't",
     points = 5,
     description = "Complete the Dust Area Bonus Stage and collect all of the cans",
     trigger = perfectBonusChallenge(gameArea_DustArea, 18)
@@ -627,7 +627,7 @@ achievement(
 
 //Smog Area - Complete
 achievement(
-    title = "Smog Area - Complete",
+    title = "A Breath of Fresh Air",
     points = 2,
     description = "Complete the Smog Area",
     trigger = completedArea(gameArea_SmogArea)
@@ -635,7 +635,7 @@ achievement(
 
 //Smog Area - Complete (No Deaths)
 achievement(
-    title = "Smog Area - No Deaths",
+    title = "In the O-Zone",
     points = 5,
     description = "Complete the Smog Area without losing a life",
     trigger = completedAreaNoDeath(gameArea_SmogArea)
@@ -659,7 +659,7 @@ achievement(
 
 //Defeat the Smog Area Boss in 2 phases or less
 achievement(
-    title = "Smog Area - Phase Challenge",
+    title = "Walking on Air",
     points = 5,
     description = "Defeat Smogger in the Smog Area in 2 phases or less",
     trigger = smoggerPhaseChallenge()
