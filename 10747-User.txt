@@ -1,0 +1,11 @@
+1.2.1.0
+Alien Syndrome
+N0:0x0002:"Game State [8-bit]\r\n0x00 = Not In Game\r\n0x80 = In Game"
+N0:0x000e:"Game Mode [8-bit]\r\n0x10 = Menu\r\n0x20 = Playing"
+N0:0x002c:"Player Score (7 Bytes)\r\nEach byte in this array represents one place within the top score, starting in the million's place (0x002c) and ending in the one's place (0x0032). Max for each byte is 9."
+N0:0x003a:"Top Score (7 Bytes)\r\nEach byte in this array represents one place within the top score, starting in the million's place (0x003a) and ending in the one's place (0x0040). Max for each byte is 9.\r\n"
+N0:0x0048:"Game Sub State?\r\n0x00 = Demo\r\n0x02 = Menu\r\n\r\n"
+N0:0x0078:"\r\n"
+N0:0x0096:"Question Mark Collected [8-bit]\r\nIncreases each time a ? is collected and rewards points.\r\nIf ? rewards invincibility, this does not increase (check 0x0915 for a value of 0x20)"
+N0:0x0555:"Invincibility Counter [8-bit]\r\nWhen greater than 0 counts down to 0. While this value is greater than 0 the player is invulnerable."
+N0:0x0915:"Item Collected [8-bit]\r\nOnly include W, S, and ?\r\nInvincibility only triggers when timer is at 272, 262, 232, 222, 171, 161, 131, and 121\r\n0x01 = ?\r\n0x02 = S\r\n0x04 = W\r\n0x20 = ? (Invincibility)\r\n\r\n\r\n "
