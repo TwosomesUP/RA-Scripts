@@ -1,9 +1,4 @@
-0.76
+1.2.1.0
 Alien Syndrome
-111000001:"0xH000002=128_0xH000052=0_0xH00007d=1_0xH000044=7_d0xH000044=0":"Calliope Clear":"Defeat Squime and clear Round 1": : : :TwosomesUP:5:0:0:0:0:00000
-111000002:"0xH000002=128_0xH000052=1_0xH00007d=1_0xH000044=7_d0xH000044=0":"Clio Clear":"Defeat Aargh and clear Round 2": : : :TwosomesUP:5:0:0:0:0:00000
-111000003:"0xH000002=128_0xH000052=2_0xH00007d=1_0xH000044=7_d0xH000044=0":"Erato Clear":"Defeat Tacapy and clear Round 3": : : :TwosomesUP:5:0:0:0:0:00000
-111000004:"0xH000002=128_0xH000052=3_0xH00007d=1_0xH000044=7_d0xH000044=0":"Euterpe Clear":"Defeat Masher and clear Round 4": : : :TwosomesUP:5:0:0:0:0:00000
-111000005:"0xH000002=128_0xH000052=4_0xH00007d=1_0xH000044=7_d0xH000044=0":"Melpomene Clear":"Defeat Haggah and clear Round 5": : : :TwosomesUP:5:0:0:0:0:00000
-111000006:"0xH000002=128_0xH000052=5_0xH00007d=1_0xH000044=7_d0xH000044=0":"Minosar Clear":"Defeat Minosar and clear Round 6": : : :TwosomesUP:5:0:0:0:0:00000
-111000007:"0xH000002=128_0xH000052=6_0xH00007d=1_0xH000044=7_d0xH000044=0":"The World is Saved!":"Clear Round 7 and stop the alien invasion": : : :TwosomesUP:10:0:0:0:0:00000
+N0:0x005c:"Hostage Array [24 bytes]\r\nEach byte is divided into two parts (upper and lower) that can represent up to two collected hostages.\r\n0x00 = Not Collected\r\nLower4 > 0 = Collected\r\nUpper4 > 0 = Collected\r\n"
+N0:0x0076:"Exit State [8-bit]\r\n0x00 = Closed\r\n0xff = Open"
