@@ -120,8 +120,9 @@ function hostagesCollected(hostages_array){
 }
 
 function checkHostage(hostage){
-    return
-        (prev(hostage) == 0 && hostage != 0)
+    return 
+        once(prev(totalItemsCollected) == totalItemsCollected && 
+        hostage > prev(hostage))
 }
 
 function itemsCollected(inRound){
@@ -129,9 +130,8 @@ function itemsCollected(inRound){
 
     return
         inGame() &&
-        round == inRound &&
         prev(totalItemsCollected) == itemCount - 1 &&
-        measured(totalItemsCollected == itemCount)
+        measured(totalItemsCollected == itemCount, round == inRound)
 }
 
 //Hostages
