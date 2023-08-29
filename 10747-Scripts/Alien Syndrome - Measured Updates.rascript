@@ -3,6 +3,7 @@
 
 gameState = byte(0x0002)
 round = byte(0x0052)
+totalItemsCollected = byte(0x0a5f)
 
 //Game States
 gameState_InGame = 0x80
@@ -107,6 +108,9 @@ round6_hostages = [
     high4(0x0073)
 ]
 
+//Total Items Array
+roundItemCount = [17,13,15,12,13,14]
+
 //Functions
 function inGame() => gameState == gameState_InGame
 
@@ -118,6 +122,16 @@ function hostagesCollected(hostages_array){
 function checkHostage(hostage){
     return
         (prev(hostage) == 0 && hostage != 0)
+}
+
+function itemsCollected(inRound){
+    itemCount = roundItemCount[inRound]
+
+    return
+        inGame() &&
+        round == inRound &&
+        prev(totalItemsCollected) == itemCount - 1 &&
+        measured(totalItemsCollected == itemCount)
 }
 
 //Hostages
@@ -189,65 +203,40 @@ achievement(
     title = "Calliope Collector", points = 10,
     description = "Get All 17 Items in Calliope",
     id = 73292, badge = "78613", published = "3/9/2019 9:55:47 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = byte(0x000084) == 0x01 && byte(0x000085) == 0x01 && byte(0x000086) == 0x01 && byte(0x000087) == 0x01 && 
-              byte(0x000088) == 0x01 && byte(0x000089) == 0x01 && byte(0x00008B) == 0x01 && byte(0x00008C) == 0x01 && 
-              byte(0x00008D) == 0x01 && byte(0x00008E) == 0x01 && byte(0x00008F) == 0x01 && byte(0x000090) == 0x01 && 
-              byte(0x000091) == 0x01 && byte(0x000092) == 0x01 && byte(0x000093) == 0x01 && byte(0x000094) == 0x01 && 
-              byte(0x000095) == 0x01 && byte(0x000A5F) == 0x11 && once(byte(0x000A5F) > prev(byte(0x000A5F))) && 
-              never(!inGame()) && never(round != round1)
+    trigger = itemsCollected(round1)
 )
 
 achievement(
     title = "Clio Collector", points = 10,
     description = "Get All 13 Items in Clio",
     id = 73295, badge = "78613", published = "3/9/2019 9:56:14 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = byte(0x000084) == 0x01 && byte(0x000085) == 0x01 && byte(0x000086) == 0x01 && byte(0x000087) == 0x01 && 
-              byte(0x000088) == 0x01 && byte(0x000089) == 0x01 && byte(0x00008A) == 0x01 && byte(0x00008B) == 0x01 && 
-              byte(0x00008C) == 0x01 && byte(0x00008D) == 0x01 && byte(0x00008E) == 0x01 && byte(0x00008F) == 0x01 && 
-              byte(0x000090) == 0x01 && byte(0x000A5F) == 0x0D && once(byte(0x000A5F) > prev(byte(0x000A5F))) && 
-              never(!inGame()) && never(round != round2)
+    trigger = itemsCollected(round2)
 )
 
 achievement(
     title = "Erato Collector", points = 10,
     description = "Get All 15 Items in Erato",
     id = 73298, badge = "78613", published = "3/9/2019 9:56:46 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = byte(0x000084) == 0x01 && byte(0x000085) == 0x01 && byte(0x000086) == 0x01 && byte(0x000087) == 0x01 && 
-              byte(0x000088) == 0x01 && byte(0x000089) == 0x01 && byte(0x00008A) == 0x01 && byte(0x00008B) == 0x01 && 
-              byte(0x00008C) == 0x01 && byte(0x00008D) == 0x01 && byte(0x00008E) == 0x01 && byte(0x00008F) == 0x01 && 
-              byte(0x000090) == 0x01 && byte(0x000091) == 0x01 && byte(0x000092) == 0x01 && byte(0x000A5F) == 0x0F && 
-              once(byte(0x000A5F) > prev(byte(0x000A5F))) && never(!inGame()) && never(round != round3)
+    trigger = itemsCollected(round3)
 )
 
 achievement(
     title = "Euterpe Collector", points = 10,
     description = "Get All 12 Items in Euterpe",
     id = 73301, badge = "78613", published = "3/9/2019 9:57:13 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = byte(0x000084) == 0x01 && byte(0x000085) == 0x01 && byte(0x000086) == 0x01 && byte(0x000087) == 0x01 && 
-              byte(0x000088) == 0x01 && byte(0x000089) == 0x01 && byte(0x00008A) == 0x01 && byte(0x00008B) == 0x01 && 
-              byte(0x00008C) == 0x01 && byte(0x00008D) == 0x01 && byte(0x00008E) == 0x01 && byte(0x00008F) == 0x01 && 
-              byte(0x000A5F) == 0x0C && once(byte(0x000A5F) > prev(byte(0x000A5F))) && never(!inGame()) && 
-              never(round != round4)
+    trigger = itemsCollected(round4)
 )
 
 achievement(
     title = "Melpomene Collector", points = 10,
     description = "Get All 13 Items in Melpomene",
     id = 73304, badge = "78613", published = "3/9/2019 9:57:54 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = byte(0x000084) == 0x01 && byte(0x000085) == 0x01 && byte(0x000086) == 0x01 && byte(0x000087) == 0x01 && 
-              byte(0x000088) == 0x01 && byte(0x000089) == 0x01 && byte(0x00008A) == 0x01 && byte(0x00008B) == 0x01 && 
-              byte(0x00008C) == 0x01 && byte(0x00008D) == 0x01 && byte(0x00008E) == 0x01 && byte(0x00008F) == 0x01 && 
-              byte(0x000090) == 0x01 && byte(0x000A5F) == 0x0D && once(byte(0x000A5F) > prev(byte(0x000A5F))) && 
-              never(!inGame()) && never(round != round5)
+    trigger = itemsCollected(round5)
 )
 
 achievement(
     title = "Thalia Collector", points = 10,
     description = "Get All 14 Items in Thalia",
     id = 73307, badge = "78613", published = "3/9/2019 9:58:31 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = byte(0x000084) == 0x01 && byte(0x000085) == 0x01 && byte(0x000086) == 0x01 && byte(0x000087) == 0x01 && 
-              byte(0x000088) == 0x01 && byte(0x000089) == 0x01 && byte(0x00008A) == 0x01 && byte(0x00008B) == 0x01 && 
-              byte(0x00008C) == 0x01 && byte(0x00008D) == 0x01 && byte(0x00008E) == 0x01 && byte(0x00008F) == 0x01 && 
-              byte(0x000090) == 0x01 && byte(0x000091) == 0x01 && byte(0x000A5F) == 0x0E && once(byte(0x000A5F) >
-               prev(byte(0x000A5F))) && never(!inGame()) && never(round != round6)
+    trigger = itemsCollected(round6)
 )

@@ -1,4 +1,8 @@
 1.2.1.0
 Alien Syndrome
-N0:0x005c:"Hostage Array [24 bytes]\r\nEach byte is divided into two parts (upper and lower) that can represent up to two collected hostages.\r\n0x00 = Not Collected\r\nLower4 > 0 = Collected\r\nUpper4 > 0 = Collected\r\n"
-N0:0x0076:"Exit State [8-bit]\r\n0x00 = Closed\r\n0xff = Open"
+73295:"0xH000002=128_0xH000052=1_d0xH000a5f=12_M:0xH000a5f=13":Clio Collector:Get All 13 Items in Clio::::caricatur:10:::::78613
+73298:"0xH000002=128_0xH000052=2_d0xH000a5f=14_M:0xH000a5f=15":Erato Collector:Get All 15 Items in Erato::::caricatur:10:::::78613
+73301:"0xH000002=128_0xH000052=3_d0xH000a5f=11_M:0xH000a5f=12":Euterpe Collector:Get All 12 Items in Euterpe::::caricatur:10:::::78613
+73292:"0xH000002=128_0xH000052=0_d0xH000a5f=16_M:0xH000a5f=17":Calliope Collector:Get All 17 Items in Calliope::::caricatur:10:::::78613
+73304:"0xH000002=128_0xH000052=4_d0xH000a5f=12_M:0xH000a5f=13":Melpomene Collector:Get All 13 Items in Melpomene::::caricatur:10:::::78613
+73307:"0xH000002=128_0xH000052=5_d0xH000a5f=13_M:0xH000a5f=14":Thalia Collector:Get All 14 Items in Thalia::::caricatur:10:::::78613
