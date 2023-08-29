@@ -24,6 +24,7 @@ round4 = 0x03
 round5 = 0x04
 round6 = 0x05
 finalRound = 0x06
+credits = 0x07
 
 //Score Screen States
 scoreScreen_Active = 0x07
@@ -89,11 +90,13 @@ rich_presence_conditional_display(inGame() && !bossActive(), "Rescuing hostages 
     rich_presence_value("Number", hostagesCollected()) 
 )
 
-rich_presence_conditional_display(inGame() && bossActive(), "Fighting {0} in {1} | Lives: {2} | Score: {3}",
+rich_presence_conditional_display(inGame() && bossActive() && round != credits, "Fighting {0} in {1} | Lives: {2} | Score: {3}",
     rich_presence_lookup("Boss", round, BossLookup),
     rich_presence_lookup("Round", round, RoundLookup),
     rich_presence_value("Number", lives),
     rich_presence_value("Number", getScore())
 )
+
+rich_presence_conditional_display(inGame() && bossActive() && round == credits, "Watching the Epilogue!")
 
 rich_presence_display("Playing Alien Syndrome")
