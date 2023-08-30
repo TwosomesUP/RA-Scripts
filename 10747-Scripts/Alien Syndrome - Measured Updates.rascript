@@ -134,36 +134,37 @@ function itemsCollected(inRound){
         measured(totalItemsCollected == itemCount, round == inRound)
 }
 
+function totalHostagesCollected(inRound){
+    return 
+        inGame() &&
+        sum_of(range(0x005c, 0x0073), in => prev(bit0(in)) + prev(bit4(in))) < 12 &&
+        measured(sum_of(range(0x005c, 0x0073), in => bit0(in) + bit4(in)) == 12, round == inRound)
+}
+
 //Hostages
+
+achievement("Test Hostage", "Test", 10, totalHostagesCollected(round1))
+
 
 achievement(
     title = "Calliope Hostage Rescuer", points = 10,
     description = "Save all 12 Hostages in Calliope",
     id = 73293, badge = "78614", published = "3/9/2019 9:55:57 AM", modified = "3/12/2019 5:25:48 PM",
-    trigger = 
-        never(!inGame()) && 
-        never(round != round1) &&
-        hostagesCollected(round1_hostages)
+    trigger = totalHostagesCollected(round1)
 )
 
 achievement(
     title = "Clio Hostage Rescuer", points = 10,
     description = "Save all 12 Hostages in Clio",
     id = 73296, badge = "78614", published = "3/9/2019 9:56:21 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = 
-        never(!inGame()) && 
-        never(round != round2) &&
-        hostagesCollected(round2_hostages)
+    trigger = totalHostagesCollected(round2)
 )
 
 achievement(
     title = "Erato Hostage Rescuer", points = 10,
     description = "Save all 12 Hostages in Erato",
     id = 73299, badge = "78614", published = "3/9/2019 9:56:53 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = 
-        never(!inGame()) && 
-        never(round != round3) &&
-        hostagesCollected(round3_hostages)
+    trigger = totalHostagesCollected(round3)
 )
 
 
@@ -171,30 +172,21 @@ achievement(
     title = "Euterpe Hostage Rescuer", points = 10,
     description = "Save all 12 Hostages in Euterpe",
     id = 73302, badge = "78614", published = "3/9/2019 9:57:25 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = 
-        never(!inGame()) && 
-        never(round != round4) &&
-        hostagesCollected(round4_hostages)
+    trigger = totalHostagesCollected(round4)
 )
 
 achievement(
     title = "Melpomene Hostage Rescuer", points = 10,
     description = "Save all 12 Hostages in Melpomene",
     id = 73305, badge = "78614", published = "3/9/2019 9:58:13 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = 
-        never(!inGame()) && 
-        never(round != round5) &&
-        hostagesCollected(round5_hostages)
+    trigger = totalHostagesCollected(round5)
 )
 
 achievement(
     title = "Thalia Hostage Rescuer", points = 10,
     description = "Save all 12 Hostages in Thalia",
     id = 73308, badge = "78614", published = "3/9/2019 9:58:58 AM", modified = "10/1/2019 1:58:01 PM",
-    trigger = 
-        never(!inGame()) && 
-        never(round != round6) &&
-        hostagesCollected(round6_hostages)
+    trigger = totalHostagesCollected(round6)
 )
 
 //Items
