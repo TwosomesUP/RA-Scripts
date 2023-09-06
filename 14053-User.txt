@@ -1,5 +1,9 @@
 1.2.1.0
 Silhouette Mirage
-N0:0x010066:"Parasite Slot 1"
-N0:0x010067:"Parasite Slot 2?"
-N0:0x010068:"Parasite Slot 3?"
+N0:0x01006f:"Player Retries [8-bit]"
+N0:0x132a2c:"Shop Item Area 3"
+N0:0x1401ec:"Shop Item Area 1"
+N0:0x14f96c:"Shop Item Area 2"
+111000001:"I:0xW1fed84_0x 002f34<300_I:0xW1fed84_M:0x 002f34>=300":Money Pointer Test:::::TwosomesUP:0:::::00000
+111000002:"I:0xW1fed84_0x 002f28<300_I:0xW1fed84_M:0x 002f28>=300":Spirit Pointer Test::::::0:::::00000
+111000003:"I:0xW1fed84_0x 002f24<300_I:0xW1fed84_M:0x 002f24>=300":Health Pointer Test::::::0:::::00000
