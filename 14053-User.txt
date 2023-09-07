@@ -1,6 +1,11 @@
 1.2.1.0
 Silhouette Mirage
-N0:0x01006f:"Player Retries [8-bit]"
+N0:0x127752:"Parasite Bomb Timer Area 3-3"
+N0:0x127800:"Spirit Area 3 - 3"
+N0:0x12782f:"Double Jump Counter Area 3-3\r\nWhen the player jumps this is set to 2. Each subsequent jump will reduce it by 1. Once the count is 0, the player can no longer jump."
+N0:0x127836:"Player Inputs 2 Area 3-3"
+N0:0x127837:"Player Inputs 1 Area 3-3"
+N0:0x127874:"Attribute State Area 3-3\r\n0x00 = Normal\r\n0x01 = Inversed"
 N0:0x132a2c:"Shop Item Area 3"
 N0:0x1401ec:"Shop Item Area 1"
 N0:0x14f96c:"Shop Item Area 2"
