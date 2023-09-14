@@ -1,0 +1,60 @@
+Base Entity Structure
++d4 = Health
++d8 = Spirit
++e0 = Attribute
++e4 = Money
+
+Player Entity Structure
++2a = Parasite Bomb Timer
++b0 = Held Enemy State
++b4 = Held Enemy Pointer
++107 = Jump Counter
++14c = Attribute State
+
+Area/Level Stucture
+
+Area 1-1
+Data: 13ab58
+Shop: 13dec0 (+3368)
+	Selected Shop Item: 1401ec (+5694)
+Character: 13fcc0 (+5168)
+Boss: N/A
+
+Area 1-2
+Data: 136d70
+Shop: 13a0d8 (+3368)
+	Selected Shop Item (Special): 13ce04 (+6094)
+Character: 13bed8 (+5168)
+Boss: 13c558 (+57e8)
+Walker: 13c758 (+59e8)
+	Health: 13769c (+d4)
+	Spirit: 1376a0 (+d8)
+	Attribute: 1376a8 (+e0)
+	Money: 1376ac (+e4)
+	
+Area 1-3
+Data: 131ce0
+Shop: 135048 (+3368)
+	Selected Shop Item: 137374 (+5694)
+Character: 136e48 (+5168)
+	Parasite Bomb Timer: 136e72 (+2a)
+	Held Enemy State: 136ef8 (+b0)
+	Held Enemy Pointer: 136efc (+b4)
+	Health: 136f1c (+d4)
+	Spirit: 136f20 (+d8)
+	Attribute: 136f28 (+e0)
+	Money: 136f2c (+e4)
+	Jump Counter: 136f4f (+107)
+	Attribute State: 136f94 (+14c)
+Boss: 1375c8 (+58e8)
+	Health: 13769c (+d4)
+	Spirit: 1376a0 (+d8)
+	Attribute: 1376a8 (+e0)
+	Money: 1376ac (+e4)
+	
+Area 2-2
+Data: 14f430
+Shop:
+Character: 154598 (+5168)
+Boss: 154a18 (+55e8)
+	Attribute: 154af8
