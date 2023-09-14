@@ -1,41 +1,108 @@
+- Once you're able to find an entity they all seem to follow a similar structure with consistent offsets.
+- The offsets from the start of a level data block to an entity may change from level to level, but are
+  typically consistent. Offsets for specific levels may need to be created.
+- Shop is broken into two pieces the "NPC" entity and the actual shop data. Offsets for the shop data seems
+  to be variable.
+
 Base Entity Structure
-+d4 = Health
-+d8 = Spirit
-+e0 = Attribute
-+e4 = Money
++d4 = Health [16-bit]
++d8 = Spirit [16-bit]
++e0 = Attribute [8-bit]
++e4 = Money [16-bit]
+
+Attribute
+	- 0 = Normal
+	- 1 = Mirage
+	- 2 = Silhouette
 
 Player Entity Structure
-+2a = Parasite Bomb Timer
-+b0 = Held Enemy State
-+b4 = Held Enemy Pointer
-+107 = Jump Counter
-+14c = Attribute State
++2a = Parasite Bomb Timer [8-bit]
++4c = Player State
++b0 = Held Enemy State [8-bit]
++b4 = Held Enemy Pointer [32-bit]
++107 = Jump Counter [8-bit]
++14c = Attribute State [8-bit]
+
+Parasite Bomb Timer
+	- Active when > 0
+Player State
+	- 02 = Dashing
+	- 03 = Sliding
+	- 05 = In Air/Falling
+	- 07 = Knocked Back
+	- 08 = Damaged
+	- 18 = Parasite Bomb
+	- 1a = Crouching
+	- 1b = Crouch Dashing
+	- 1c = Reflector Shield Up
+	- 1d = Holding Enemy
+Held Enemy State
+	- 10 when holding an enemy
+Held Enemy Pointer
+	- Address of currently held enemy entity
+Jump Counter
+	- After initial jump set to 2. 
+	- Each subsequent midair jump decrements this by one.
+	- When 0 and airborn, no more jumps remaining.
+Attribute State
+	- 0 = Normal
+	- 1 = Inverse
+	
+======================================================
 
 Area/Level Stucture
+
+======================================================
 
 Area 1-1
 Data: 13ab58
 Shop: 13dec0 (+3368)
-	Selected Shop Item: 1401ec (+5694)
+	1401ec = Selected Shop Item(+5694)
 Character: 13fcc0 (+5168)
+	13fd94 = Health
+	13fd98 = Spirit
+	13fda0 = Attribute
+	13fda4 = Money
+	13fcea = Parasite Bomb Timer
+	13fd70 = Held Enemy State
+	13fd74 = Held Enemy Pointer
+	13fdc7 = Jump Counter
+	13fe0c = Attribute State
 Boss: N/A
+
+======================================================
 
 Area 1-2
 Data: 136d70
 Shop: 13a0d8 (+3368)
-	Selected Shop Item (Special): 13ce04 (+6094)
+	13ce04 = Selected Shop Item [Special](+6094)
 Character: 13bed8 (+5168)
+	13bfac = Health
+	13bfb0 = Spirit
+	13bfb8 = Attribute
+	13bfbc = Money
+	13bf02 = Parasite Bomb Timer
+	13bf88 = Held Enemy State
+	13bf8c = Held Enemy Pointer
+	13bfdf = Jump Counter
+	13c024 = Attribute State
 Boss: 13c558 (+57e8)
+	13c62c = Health
+	13c630 = Spirit
+	13c638 = Attribute
+	13c63c = Money
 Walker: 13c758 (+59e8)
-	Health: 13769c (+d4)
-	Spirit: 1376a0 (+d8)
-	Attribute: 1376a8 (+e0)
-	Money: 1376ac (+e4)
+	13769c = Health
+	1376a0 = Spirit
+	1376a8 = Attribute
+	1376ac = Money
+	
+======================================================
 	
 Area 1-3
 Data: 131ce0
 Shop: 135048 (+3368)
-	Selected Shop Item: 137374 (+5694)
+	Selected Shop Item (Special): 137374 (+5694)
 Character: 136e48 (+5168)
 	Parasite Bomb Timer: 136e72 (+2a)
 	Held Enemy State: 136ef8 (+b0)
