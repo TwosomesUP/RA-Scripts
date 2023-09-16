@@ -1,5 +1,6 @@
 1.2.1.0
 Silhouette Mirage
+N0:0x000000:"======================================================\r\nNotes on Data Structures\r\n======================================================\r\n\r\nAll entities (boss, character, enemey, etc) use a base entity structure to store their base data (health, spirit, money, attribute) with consistent offsets. More complex entities like the player character or bosses will contain additional data with unique offsets to that entity type.\r\n\r\nAll entities in a level will be contained within the Level Data structure. For the most part offsets to these entities are consistent but in some levels it can be variable.\r\n\r\nLevel data can also contain non-Entity data. Offsets for this data can vary based on the current level.\r\n\r\nCode notes for each known entity in each level can be found below as well as their offset from that level's Level Data structure. This is primarily for ease of access while testing and/or troubleshooting.\r\n\r\n======================================================\r\nLevel Data Offsets\r\n======================================================\r\n\r\nArea 1, Area 2\r\n+3368 = Shop Data\r\n+5168 = Player Data\r\n\r\n======================================================\r\nEntity Structures\r\n======================================================\r\n\r\n== Base Entity ==\r\n+d4 = Health [16-bit]\r\n\r\n+d8 = Spirit [16-bit]\r\n\r\n+e0 = Attribute [8-bit]\r\nvalue = 00: Normal\r\nvalue = 01: Mirage\r\nvalue = 02: Silhouette\r\n\r\n+e4 = Money [16-bit]\r\n\r\n== Player Entity ==\r\n+2a = Parasite Bomb Timer [8-bit]\r\nvalue > 0: Active\r\n\r\n+4c = Player State\r\nvalue = 02: Dashing\r\nvalue = 03: Sliding\r\nvalue = 05: In Air/Falling\r\nvalue = 07: Knocked Back\r\nvalue = 08: Damaged\r\nvalue = 18: Parasite Bomb\r\nvalue = 1a: Crouching\r\nvalue = 1b: Crouch Dashing\r\nvalue = 1c: Reflector Shield Up\r\nvalue = 1d: Holding Enemy\r\n\r\n+b0 = Held Enemy State [8-bit]\r\nvalue = 10: Holding Enemy\r\n\r\n+b4 = Held Enemy Pointer [32-bit]\r\n\r\n+107 = Jump Counter [8-bit]\r\n- Set to 2 after initial jump\r\n- Decremented by 1 after each subsequent midair jump\r\n- When 0 and airborn, no more jumps remaining\r\n\r\n+14c = Attribute State [8-bit]\r\nvalue = 00: Normal\r\nvalue = 01: Inversed\r\n\r\n======================================================\r\nNon-Entity Level Data\r\n======================================================\r\n\r\n== Selected Shop Item ==\r\nStandard shops will top off at 09 but special shops will top off at 24. This is the secret Level 6 Parasite (6 total).\r\n\r\nWhen purchased the selected item will be placed in Parasite Slot 1, shifting all other equipped parasites to the next available Parasite Slot.\r\n\r\nArea 1-2: Surosa Lv 6\r\nArea 1-3: Priday\r\nArea 3-1: Angara\r\nArea 3-2: Rasti\r\nArea 4-3: Grattoni\r\nArea 5-2: Envia"
 N0:0x136e72:"Area 1-3 Player Data - Parasite Bomb Timer"
 N0:0x136ef8:"Area 1-3 Player Data - Held Enemy State"
 N0:0x136efc:"Area 1-3 Player Data - Held Enemy Pointer"
@@ -42,6 +43,8 @@ N0:0x13fe0c:"Area 1-1 Player Data - Attribute State"
 N0:0x148174:"Area 1-2 Collision Pointer"
 N0:0x14a2d8:"Area 2-1 Level Data"
 N0:0x14d640:"Area 2-1 Shop Data (+3368)"
+N0:0x14d652:"Area 2-1 Shop Data - Shop Index"
+N0:0x14f430:"Area 2-2 Level Data"
 N0:0x14f440:"Area 2-1 Player Data (+5168)"
 N0:0x14f46a:"Area 2-1 Player Data - Parasite Bomb Timer"
 N0:0x14f4f0:"Area 2-1 Player Data - Held Enemy State"
@@ -53,7 +56,17 @@ N0:0x14f524:"Area 2-1 Player Data - Money"
 N0:0x14f547:"Area 2-1 Player Data - Jump Counter"
 N0:0x14f58c:"Area 2-1 Player Data - Attribute State"
 N0:0x14f96c:"Area 2-1 Selected Shop Item (+5694)"
+N0:0x14f9c0:"Area 2-1 Boss Data (+56e8)"
+N0:0x14f9c4:"Area 2-1 Boss Data - ID\r\n0d935c = Nardo\r\n0e3938 = Zohar"
+N0:0x14fa94:"Area 2-1 Boss Data - Health"
+N0:0x14fa98:"Area 2-1 Boss Data - Spirit"
+N0:0x14faa0:"Area 2-1 Boss Data - Attribute"
+N0:0x14faa4:"Area 2-1 Boss Data - Money"
+N0:0x152798:"Area 2-2 Shop Data (+3368)"
+N0:0x1527aa:"Area 2-2 Shop Data - Shop Index"
 111000001:"I:0xW1fed84_0x 002f34<300_I:0xW1fed84_M:0x 002f34>=300":Money Pointer Test:::::TwosomesUP:0:::::00000
 111000002:"I:0xW1fed84_0x 002f28<300_I:0xW1fed84_M:0x 002f28>=300":Spirit Pointer Test::::::0:::::00000
 111000003:"I:0xW1fed84_0x 002f24<300_I:0xW1fed84_M:0x 002f24>=300":Health Pointer Test::::::0:::::00000
 111000004:"0xH01006c=0_0xH01006d=0_N:d0xH130d44!=0_M:0xH130d44=0.100._N:0xH010070=1_Q:0xH010071=3":Test - Credit Enemies:::::TwosomesUP:0:::::00000
+111000005:"0xH01006c=2_0xH01006d=1_0xW14f9c4=889692_T:0x 14fa94=0_d0x 14fa94!=0":Test Nardo:::::TwosomesUP:0:::::"local\\14053-0319e5397cf5ebca90abe112144f2886.png"
+111000006:"0xH01006c=2_0xH01006d=1_0xW14f9c4=932152_T:0x 14fa94<=500_d0x 14fa94!=500":Test 2-1 Zohar::::::0:::::"local\\14053-b14bb0ba02572255223dc22ffc4db6cf.png"

@@ -7,6 +7,7 @@
 ======================================================
 
 Base Entity Structure
++04 = Entity ID
 +d4 = Health [16-bit]
 +d8 = Spirit [16-bit]
 +e0 = Attribute [8-bit]
@@ -52,6 +53,11 @@ Attribute State
 	- 0 = Normal
 	- 1 = Inverse
 	
+======================================================
+
+Shop Entity Structure
++12 = Shop Index
+
 ======================================================
 
 Shop Items (Special)
@@ -143,6 +149,7 @@ Walker: N/A
 Area 2-1
 Data: 14a2d8
 Shop: 14d640 (+3368)
+	14d652 = Shop Index
 	14f96c = Selected Shop Item (+5694)
 Character: 14f440 (+5168)
 	14f514 = Health
@@ -154,18 +161,33 @@ Character: 14f440 (+5168)
 	14f4f4 = Held Enemy Pointer
 	14f547 = Jump Counter
 	14f58c = Attribute State
-Boss:
-	13769c = Health
-	1376a0 = Spirit
-	1376a8 = Attribute
-	1376ac = Money
-Walker:
+Boss: 14f9c0 (+56e8)
+	14fa94 = Health
+	14fa98 = Spirit
+	14faa0 = Attribute
+	14faa4 = Money
+Walker: N/A
 
 ======================================================
 	
 Area 2-2
 Data: 14f430
-Shop:
+Shop: 152798 (+3368)
+	1527aa = Shop Index
+	154ac4 = Selected Shop Item (+5694)
 Character: 154598 (+5168)
+	14f514 = Health
+	14f518 = Spirit
+	14f520 = Attribute
+	14f524 = Money
+	14f46a = Parasite Bomb Timer
+	14f4f0 = Held Enemy State
+	14f4f4 = Held Enemy Pointer
+	14f547 = Jump Counter
+	14f58c = Attribute State
 Boss: 154a18 (+55e8)
-	Attribute: 154af8
+	14fa94 = Health
+	14fa98 = Spirit
+	14faa0 = Attribute
+	14faa4 = Money
+Walker: N/A
